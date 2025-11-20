@@ -1,0 +1,18 @@
+package com.example.booking.service;
+
+import com.example.booking.dto.CreateBookingRequest;
+import com.example.booking.dto.BookingResponse;
+import com.example.booking.entities.Booking;
+
+import java.util.List;
+
+public interface BookingService {
+
+    BookingResponse bookRide(CreateBookingRequest request);
+
+    void cancelBooking(Long bookingId, Long passengerId);
+
+    List<Booking> getBookingsByPassenger(Long passengerId);
+
+    List<Booking> getBookingsByRide(Long rideId);
+}
