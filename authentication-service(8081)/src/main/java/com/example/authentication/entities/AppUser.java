@@ -20,8 +20,10 @@ public class AppUser {
 
     public enum UserType {
         PASSENGER,
-        DRIVER
+        DRIVER,
+        Admin
     }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
