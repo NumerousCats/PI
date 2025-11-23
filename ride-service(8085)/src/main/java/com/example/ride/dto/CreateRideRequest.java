@@ -12,5 +12,5 @@ public class CreateRideRequest {
     private LocalDate departureDate;
     private Integer availableSeats;
     private Double pricePerSeat;
-    private Long driverId;
+    private String driverId;
 }

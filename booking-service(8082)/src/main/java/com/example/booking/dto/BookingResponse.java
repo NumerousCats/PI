@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class BookingResponse {
-    private Long bookingId;
-    private Long rideId;
-    private Long passengerId;
+    private String bookingId;
+    private String rideId;
+    private String passengerId;
     private Integer seatsBooked;
     private BookingStatus status;
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreateBookingRequest {
-    private Long rideId;
-    private Long passengerId;
-    private Integer seats = 1; // optional
+    private String rideId;
+    private String passengerId;
+    private Integer seats ;
 }

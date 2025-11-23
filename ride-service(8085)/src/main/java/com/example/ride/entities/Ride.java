@@ -1,45 +1,35 @@
 package com.example.ride.entities;
 
 import com.example.ride.enums.RideStatus;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "rides")
 public class Ride {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Embedded
     private City departureCity;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "destination_name")),
-            @AttributeOverride(name = "postalCode", column = @Column(name = "destination_postalcode"))
-    })
     private City destinationCity;
 
     private LocalDate departureDate;
     private Integer availableSeats;
     private Double pricePerSeat;
 
-    @Enumerated(EnumType.STRING)
     private RideStatus status = RideStatus.SCHEDULED;
 
-    private Long driverId; // comes from Authentication MS
+    private String driverId;
 
-    @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
     private LocalDateTime updatedAt;
 }

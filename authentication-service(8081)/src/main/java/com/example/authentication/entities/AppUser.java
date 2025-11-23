@@ -1,16 +1,17 @@
 package com.example.authentication.entities;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "users")
 public class AppUser {
 
     public enum Gender {
@@ -21,26 +22,21 @@ public class AppUser {
     public enum UserType {
         PASSENGER,
         DRIVER,
-        Admin
+        ADMIN
     }
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String email;
     private String password;
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
     private Gender gender;
-
-    @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
     private LocalDateTime updatedAt;
+
+    private Boolean isBanned = false;
 }

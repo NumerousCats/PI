@@ -10,9 +10,15 @@ public interface BookingService {
 
     BookingResponse bookRide(CreateBookingRequest request);
 
-    void cancelBooking(Long bookingId, Long passengerId);
+    void cancelBooking(String bookingId, String passengerId);
 
-    List<Booking> getBookingsByPassenger(Long passengerId);
+    void acceptBooking(String bookingId, String driverId);
 
-    List<Booking> getBookingsByRide(Long rideId);
+    void rejectBooking(String bookingId, String driverId);
+
+    List<Booking> getBookingsByPassenger(String passengerId);
+
+    List<Booking> getBookingsByRide(String rideId);
+
+    List<Booking> getPendingBookingsByDriver(String driverId);
 }

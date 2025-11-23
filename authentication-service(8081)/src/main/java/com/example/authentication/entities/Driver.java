@@ -1,14 +1,14 @@
 package com.example.authentication.entities;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "drivers")
 public class Driver extends AppUser {
 
     private String licenseNumber;

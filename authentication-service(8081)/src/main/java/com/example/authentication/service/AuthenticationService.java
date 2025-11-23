@@ -56,7 +56,35 @@ public class AuthenticationService {
 
     public boolean authenticate(String email, String password) {
         return userRepo.findByEmail(email)
-                .map(u -> u.getPassword().equals(password))
+                .map(u -> u.getPassword().equals(password) && !Boolean.TRUE.equals(u.getIsBanned()))
                 .orElse(false);
+    }
+
+    public java.util.List<AppUser> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    public AppUser getUserById(String userId) {
+        return userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public AppUser getUserByEmail(String email) {
+        return userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public AppUser banUser(String userId) {
+        AppUser user = getUserById(userId);
+        user.setIsBanned(true);
+        user.setUpdatedAt(LocalDateTime.now());
+        return userRepo.save(user);
+    }
+
+    public AppUser unbanUser(String userId) {
+        AppUser user = getUserById(userId);
+        user.setIsBanned(false);
+        user.setUpdatedAt(LocalDateTime.now());
+        return userRepo.save(user);
     }
 }

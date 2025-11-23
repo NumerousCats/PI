@@ -24,7 +24,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setRideId(request.getRideId());
         booking.setPassengerId(request.getPassengerId());
         booking.setSeatsBooked(request.getSeats());
-        booking.setStatus(BookingStatus.CONFIRMED);
+        booking.setStatus(BookingStatus.PENDING);
 
         Booking saved = bookingRepository.save(booking);
 
@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void cancelBooking(Long bookingId, Long passengerId) {
+    public void cancelBooking(String bookingId, String passengerId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
@@ -47,19 +47,54 @@ public class BookingServiceImpl implements BookingService {
             throw new RuntimeException("You cannot cancel another user's booking");
         }
 
-        booking.setStatus(BookingStatus.CANCELED);
+        booking.setStatus(BookingStatus.CANCELLED);
         booking.setUpdatedAt(LocalDateTime.now());
 
         bookingRepository.save(booking);
     }
 
     @Override
-    public List<Booking> getBookingsByPassenger(Long passengerId) {
+    public void acceptBooking(String bookingId, String driverId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        // TODO: Verify driver owns the ride
+        // This would require calling ride-service to check ride ownership
+
+        booking.setStatus(BookingStatus.ACCEPTED);
+        booking.setUpdatedAt(LocalDateTime.now());
+        bookingRepository.save(booking);
+    }
+
+    @Override
+    public void rejectBooking(String bookingId, String driverId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        // TODO: Verify driver owns the ride
+        // This would require calling ride-service to check ride ownership
+
+        booking.setStatus(BookingStatus.REJECTED);
+        booking.setUpdatedAt(LocalDateTime.now());
+        bookingRepository.save(booking);
+    }
+
+    @Override
+    public List<Booking> getBookingsByPassenger(String passengerId) {
         return bookingRepository.findByPassengerId(passengerId);
     }
 
     @Override
-    public List<Booking> getBookingsByRide(Long rideId) {
+    public List<Booking> getBookingsByRide(String rideId) {
         return bookingRepository.findByRideId(rideId);
+    }
+
+    @Override
+    public List<Booking> getPendingBookingsByDriver(String driverId) {
+        // This requires finding all rides by driver, then finding pending bookings for those rides
+        // For now, return all pending bookings - in production, this should filter by driver's rides
+        return bookingRepository.findAll().stream()
+                .filter(b -> b.getStatus() == BookingStatus.PENDING)
+                .toList();
     }
 }

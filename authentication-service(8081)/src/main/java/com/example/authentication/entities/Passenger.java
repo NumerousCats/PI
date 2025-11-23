@@ -1,15 +1,14 @@
 package com.example.authentication.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "passengers")
 public class Passenger extends AppUser {
 
     private String preferredPaymentMethod;

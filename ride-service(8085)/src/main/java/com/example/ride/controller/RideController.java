@@ -21,13 +21,13 @@ public class RideController {
     }
 
     @DeleteMapping("/{rideId}")
-    public String deleteRide(@PathVariable Long rideId, @RequestParam Long driverId) {
+    public String deleteRide(@PathVariable String rideId, @RequestParam String driverId) {
         rideService.deleteRide(rideId, driverId);
         return "Ride deleted successfully";
     }
 
     @GetMapping("/driver/{driverId}")
-    public List<Ride> getDriverRides(@PathVariable Long driverId) {
+    public List<Ride> getDriverRides(@PathVariable String driverId) {
         return rideService.getRidesByDriver(driverId);
     }
 }

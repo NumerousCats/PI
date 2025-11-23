@@ -1,6 +1,9 @@
 package com.example.booking.enums;
 
 public enum BookingStatus {
-    CONFIRMED,
-    CANCELED
+    PENDING,
+    ACCEPTED,
+    REJECTED,
+    CANCELLED,
+    COMPLETED
 }

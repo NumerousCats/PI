@@ -23,20 +23,41 @@ public class BookingController {
 
     @DeleteMapping("/{bookingId}")
     public String cancelBooking(
-            @PathVariable Long bookingId,
-            @RequestParam Long passengerId) {
+            @PathVariable String bookingId,
+            @RequestParam String passengerId) {
 
         bookingService.cancelBooking(bookingId, passengerId);
         return "Booking canceled";
     }
 
     @GetMapping("/passenger/{passengerId}")
-    public List<Booking> getPassengerBookings(@PathVariable Long passengerId) {
+    public List<Booking> getPassengerBookings(@PathVariable String passengerId) {
         return bookingService.getBookingsByPassenger(passengerId);
     }
 
     @GetMapping("/ride/{rideId}")
-    public List<Booking> getRideBookings(@PathVariable Long rideId) {
+    public List<Booking> getRideBookings(@PathVariable String rideId) {
         return bookingService.getBookingsByRide(rideId);
+    }
+
+    @PostMapping("/{bookingId}/accept")
+    public String acceptBooking(
+            @PathVariable String bookingId,
+            @RequestParam String driverId) {
+        bookingService.acceptBooking(bookingId, driverId);
+        return "Booking accepted";
+    }
+
+    @PostMapping("/{bookingId}/reject")
+    public String rejectBooking(
+            @PathVariable String bookingId,
+            @RequestParam String driverId) {
+        bookingService.rejectBooking(bookingId, driverId);
+        return "Booking rejected";
+    }
+
+    @GetMapping("/driver/{driverId}/pending")
+    public List<Booking> getPendingBookings(@PathVariable String driverId) {
+        return bookingService.getPendingBookingsByDriver(driverId);
     }
 }
